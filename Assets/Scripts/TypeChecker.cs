@@ -7,12 +7,12 @@ public class TypeChecker : MonoBehaviour
 
     public string stringToBeChecked = "¿De qué color es el caballo blanco de santiago?"; //what the user must type
     private string currentCheckedString = ""; //what the user is typing
-    private string currentCheckedStringCopy = ""; //what the user type before the next char
+
 
     public int errorCounter = 0; //an error counter
     private int wordCounter = 0; //use to know wich letter must be compare
 
-    private bool isEndede = false;
+    private bool isEnded = false;
 
 
     private GUIStyle stringToBeCheckedLabel;
@@ -22,7 +22,7 @@ public class TypeChecker : MonoBehaviour
     void Start()
     {
         stringToBeCheckedLabel = new GUIStyle();
-        stringToBeCheckedLabel.normal.textColor = Color.gray;
+        stringToBeCheckedLabel.normal.textColor = Color.white;
 
         currentCheckedStringLabel = new GUIStyle();
 
@@ -30,9 +30,10 @@ public class TypeChecker : MonoBehaviour
     }
     void Update()
     {
-
+        if (!isEnded)
+        {
             GetInputFromKeyBoard();
-        
+        }
     }
 
 
@@ -42,11 +43,11 @@ public class TypeChecker : MonoBehaviour
     /// </summary>
     private void GetInputFromKeyBoard()
     {
-        currentCheckedStringCopy = currentCheckedString;
+        string currentCheckedStringCopy = currentCheckedString;
         foreach (char c in Input.inputString)
         {
             currentCheckedString += c;
-            WordChecker();
+            WordChecker(currentCheckedStringCopy);
         }
     }
 
@@ -54,11 +55,11 @@ public class TypeChecker : MonoBehaviour
     /// Check if the current input correspond with the 
     /// stringToBeChecked global variable
     /// </summary>
-    private void WordChecker()
+    private void WordChecker(string currentCheckedStringCopy)
     {
-        if (wordCounter > stringToBeChecked.Length)
+        if (wordCounter >= stringToBeChecked.Length)
         {
-            errorCounter++;
+            isEnded = true;
         }
         else
         {
@@ -67,7 +68,7 @@ public class TypeChecker : MonoBehaviour
                 errorCounter++;
                 currentCheckedString = currentCheckedStringCopy;
                 currentCheckedStringLabel.normal.textColor = Color.red;
-             
+
             }
             else
             {
@@ -75,8 +76,8 @@ public class TypeChecker : MonoBehaviour
                 wordCounter++;
             }
         }
- 
-       
+
+
     }
 
 
