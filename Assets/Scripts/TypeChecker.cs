@@ -79,6 +79,9 @@ public class TypeChecker : MonoBehaviour
         }
     }
 
+
+
+
     /// <summary>
     /// Check if the current input correspond with the 
     /// stringToBeChecked global variable
