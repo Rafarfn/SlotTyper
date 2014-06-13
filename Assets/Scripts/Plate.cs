@@ -45,6 +45,10 @@ public class Plate : MonoBehaviour
 	public float speed = 4.0f;
 
 
+	void Awake ()
+	{
+		currentPlate = this;
+	}
 
 	void Start ()
 	{

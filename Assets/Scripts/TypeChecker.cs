@@ -12,7 +12,12 @@ public class TypeChecker : MonoBehaviour
     public int errorCounter = 0; //an error counter
     private int wordCounter = 0; //use to know wich letter must be compare
 
-    private bool isEndede = false;
+    private bool isEnded = false;
+
+	/// <summary>
+	/// The item we are currently typing.
+	/// </summary>
+	protected Item currentItem;
 
 
     private GUIStyle stringToBeCheckedLabel;
@@ -25,14 +30,25 @@ public class TypeChecker : MonoBehaviour
         stringToBeCheckedLabel.normal.textColor = Color.gray;
 
         currentCheckedStringLabel = new GUIStyle();
-
-
     }
+
     void Update()
     {
+		Item item = Plate.currentPlate.GetNextItem();
+		if (item != null || currentItem == null)
+		{
+			if (currentItem == null || currentItem != item)
+			{
+				currentCheckedString = "";
+				stringToBeChecked = currentItem.itemString;
+			}
+		}
+		else
+		{
+			stringToBeChecked = null;
+		}
 
-            GetInputFromKeyBoard();
-        
+		GetInputFromKeyBoard();
     }
 
 
@@ -42,6 +58,11 @@ public class TypeChecker : MonoBehaviour
     /// </summary>
     private void GetInputFromKeyBoard()
     {
+		if (stringToBeChecked == null)
+		{
+			return;
+		}
+
         currentCheckedStringCopy = currentCheckedString;
         foreach (char c in Input.inputString)
         {
@@ -56,8 +77,9 @@ public class TypeChecker : MonoBehaviour
     /// </summary>
     private void WordChecker()
     {
-        if (wordCounter > stringToBeChecked.Length)
+        if (wordCounter >= stringToBeChecked.Length)
         {
+			Plate.currentPlate.ItemTypedRight();
             errorCounter++;
         }
         else
