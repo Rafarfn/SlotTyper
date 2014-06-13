@@ -22,7 +22,9 @@ public class Item : MonoBehaviour
 		get { return mMovementDirection; }
 		set
 		{
-			mMovementDirection = value.normalized;
+			mMovementDirection = value;
+			mMovementDirection.y = 0;
+			mMovementDirection.Normalize();
 		}
 	}
 
@@ -54,7 +56,7 @@ public class Item : MonoBehaviour
 	{
 		if (mIsStopped)	return;
 
-		transform.Translate(movementDirection * speed * Time.deltaTime);
+		transform.root.Translate(movementDirection * speed * Time.deltaTime);
 	}
 
 	/// <summary>
@@ -62,9 +64,8 @@ public class Item : MonoBehaviour
 	/// </summary>
 	public void Destroy ()
 	{
-		// TODO
-		Destroy (gameObject);
-
+		speed *= 4;
+		isStopped = false;
 	}
 
 
