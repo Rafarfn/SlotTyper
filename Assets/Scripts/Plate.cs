@@ -40,7 +40,9 @@ public class Plate : MonoBehaviour
 	/// <summary>
 	/// The size of every step.
 	/// </summary>
-	public Vector3 stepSize;
+	public Vector3 stepSize = Vector3.one;
+
+	public float speed = 4.0f;
 
 
 
@@ -58,8 +60,14 @@ public class Plate : MonoBehaviour
 		if (itemsOnPlate > 0)
 		{
 			// Move the plate to a position according to the number of elements queued
-			//transform.Translate(Vector3.Lerp(transform.position, standByPosition - stepSize * itemsOnPlate, Time.deltaTime));
+			Vector3 targetPosition = standByPosition - stepSize * itemsOnPlate;
+			Vector3 movement = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * speed) - transform.position;
+			transform.position += movement;
 
+			for (int i = 0; i < items.Count; ++i)
+			{
+				items[i].transform.position += movement;
+			}
 		}
 
 	}
