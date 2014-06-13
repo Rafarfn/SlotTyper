@@ -37,8 +37,9 @@ public class LevelManager : MonoBehaviour {
 
     private void Initialize()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) && !initialized)
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return) && !initialized)
         {
+            Debug.Log("starting");
             Camera.main.GetComponent<TypeChecker>().enabled = true;
             initialized = true;
             listeners();

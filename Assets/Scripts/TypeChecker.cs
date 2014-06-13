@@ -40,7 +40,7 @@ public class TypeChecker : MonoBehaviour
         Item item = Plate.currentPlate.GetNextItem();
         if (item != null)
         {
-            
+
             if (currentItem == null || currentItem != item)
             {
                 isEnded = false;
@@ -53,7 +53,7 @@ public class TypeChecker : MonoBehaviour
         else
         {
             isEnded = true;
-           // stringToBeChecked = null;
+            // stringToBeChecked = null;
         }
         if (!isEnded)
         {
@@ -88,6 +88,7 @@ public class TypeChecker : MonoBehaviour
     /// </summary>
     private void WordChecker(string currentCheckedStringCopy)
     {
+
         if (wordCounter >= stringToBeChecked.Length)
         {
 
@@ -100,9 +101,11 @@ public class TypeChecker : MonoBehaviour
         {
             if (!currentCheckedString[wordCounter].Equals(stringToBeChecked[wordCounter]))
             {
-                errorCounter++;
                 currentCheckedString = currentCheckedStringCopy;
+                errorCounter++;
                 currentCheckedStringLabel.normal.textColor = Color.red;
+
+
 
             }
             else
