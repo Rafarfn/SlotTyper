@@ -30,7 +30,6 @@ public class TypeChecker : MonoBehaviour
     {
         stringToBeCheckedLabel = new GUIStyle();
         stringToBeCheckedLabel.normal.textColor = Color.white;
-
         currentCheckedStringLabel = new GUIStyle();
     }
 
@@ -91,11 +90,8 @@ public class TypeChecker : MonoBehaviour
 
         if (wordCounter >= stringToBeChecked.Length)
         {
-
             isEnded = true;
-
             Plate.currentPlate.ItemTypedRight();
-
         }
         else
         {
@@ -104,9 +100,6 @@ public class TypeChecker : MonoBehaviour
                 currentCheckedString = currentCheckedStringCopy;
                 errorCounter++;
                 currentCheckedStringLabel.normal.textColor = Color.red;
-
-
-
             }
             else
             {
