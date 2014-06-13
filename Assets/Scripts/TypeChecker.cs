@@ -5,7 +5,7 @@ public class TypeChecker : MonoBehaviour
 {
 
 
-    public string stringToBeChecked = "¿De qué color es el caballo blanco de santiago?"; //what the user must type
+    public string stringToBeChecked = ""; //what the user must type
     private string currentCheckedString = ""; //what the user is typing
 
 
@@ -57,7 +57,7 @@ public class TypeChecker : MonoBehaviour
         }
         else
         {
-            isEnded = true;
+            isEnded = true;            
             // stringToBeChecked = null;
         }
         if (!isEnded)
@@ -65,6 +65,7 @@ public class TypeChecker : MonoBehaviour
 
             GetInputFromKeyBoard();
         }
+        
 
     }
 
@@ -125,7 +126,7 @@ public class TypeChecker : MonoBehaviour
     }
 
 
-
+    
     void OnGUI()
     {
         GUI.Label(new Rect(0, 50, 100, 100), stringToBeChecked, stringToBeCheckedLabel);

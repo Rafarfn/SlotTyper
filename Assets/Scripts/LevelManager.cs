@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviour {
     public static LevelManager instance;
 
     public UISprite clock;
+    
 
     public float speedFactor = 1;
     public float totalGameTime = 20;
@@ -15,6 +16,7 @@ public class LevelManager : MonoBehaviour {
     private float delayTime;
 
     private bool initialized = false;
+    private TypeChecker typeChecker;
     public delegate void OnStartListener();
 
 
@@ -26,6 +28,8 @@ public class LevelManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         listeners += StartGame;
+        typeChecker = GetComponent<TypeChecker>();
+        typeChecker.enabled = false;
 	}
 
 
@@ -49,8 +53,7 @@ public class LevelManager : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return) && !initialized)
         {
-            Debug.Log("starting");
-            Camera.main.GetComponent<TypeChecker>().enabled = true;
+            typeChecker.enabled = true;
             initialized = true;
             listeners();
 
