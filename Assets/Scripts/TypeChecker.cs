@@ -5,48 +5,87 @@ public class TypeChecker : MonoBehaviour
 {
 
 
-    public string stringToBeChecked ="pera";
-    private string currenteCheckedString="asd";
-    public bool isCorrect = true;
-    private int wordCounter;
+    public string stringToBeChecked = "¿De qué color es el caballo blanco de santiago?"; //what the user must type
+    private string currentCheckedString = ""; //what the user is typing
+    private string currentCheckedStringCopy = ""; //what the user type before the next char
 
-    // Use this for initialization
+    public int errorCounter = 0; //an error counter
+    private int wordCounter = 0; //use to know wich letter must be compare
+
+    private bool isEndede = false;
+
+
+    private GUIStyle stringToBeCheckedLabel;
+    private GUIStyle currentCheckedStringLabel;
+
+
     void Start()
     {
+        stringToBeCheckedLabel = new GUIStyle();
+        stringToBeCheckedLabel.normal.textColor = Color.gray;
+
+        currentCheckedStringLabel = new GUIStyle();
+
 
     }
-
-    // Update is called once per frame
     void Update()
     {
-       // GetKeys();
-        if (Input.anyKeyDown)
+
+            GetInputFromKeyBoard();
+        
+    }
+
+
+    /// <summary>
+    /// Get the keyboard input and then it calls to the 
+    /// WordChecker() method
+    /// </summary>
+    private void GetInputFromKeyBoard()
+    {
+        currentCheckedStringCopy = currentCheckedString;
+        foreach (char c in Input.inputString)
         {
-            Debug.Log(Input.inputString);
+            currentCheckedString += c;
+            WordChecker();
         }
     }
 
-    private void GetKeys()
+    /// <summary>
+    /// Check if the current input correspond with the 
+    /// stringToBeChecked global variable
+    /// </summary>
+    private void WordChecker()
     {
-        if (Input.anyKeyDown )
+        if (wordCounter > stringToBeChecked.Length)
         {
-            currenteCheckedString += Input.inputString;
-            Debug.Log(Input.inputString);
-           /* if (currenteCheckedString[wordCounter].Equals(stringToBeChecked[wordCounter]))
+            errorCounter++;
+        }
+        else
+        {
+            if (!currentCheckedString[wordCounter].Equals(stringToBeChecked[wordCounter]))
             {
-                isCorrect = true;
+                errorCounter++;
+                currentCheckedString = currentCheckedStringCopy;
+                currentCheckedStringLabel.normal.textColor = Color.red;
+             
             }
             else
             {
-                
-                isCorrect = false;
-            }*/
+                currentCheckedStringLabel.normal.textColor = Color.green;
+                wordCounter++;
+            }
         }
-
+ 
+       
     }
+
+
 
     void OnGUI()
     {
-        GUI.Label(new Rect(50,50,100,20), currenteCheckedString);
+
+        GUI.Label(new Rect(0, 50, 100, 100), stringToBeChecked, stringToBeCheckedLabel);
+        GUI.Label(new Rect(0, 50, 100, 100), currentCheckedString, currentCheckedStringLabel);
+        GUI.Label(new Rect(50, 100, 100, 100), "Errores: " + errorCounter);
     }
 }
