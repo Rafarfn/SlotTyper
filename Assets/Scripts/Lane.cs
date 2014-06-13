@@ -29,15 +29,22 @@ public class Lane : MonoBehaviour
 	public GameObject generationPlaceholder;
 
 
+	void Start ()
+	{
+		timeSinceLastItem = timeBetweenItems;
+	}
+
 	public void CreateItem ()
 	{
 		if (plate != null)
 		{
 			GameObject itemObject = GameObject.Instantiate(itemPrefab, generationPlaceholder.transform.position, Quaternion.identity) as GameObject;
-			plate.OnItemStartToFall(itemObject.GetComponent<Item>());
+			
+			Item item = itemObject.GetComponentInChildren<Item>();
+
+			plate.OnItemStartToFall(item);
 
 			// Set a movement direction for the item
-			Item item = itemObject.GetComponent<Item>();
 			if (item != null)
 			{
 				// Move towards the plate form the starting position

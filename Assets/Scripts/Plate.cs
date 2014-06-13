@@ -44,6 +44,17 @@ public class Plate : MonoBehaviour
 
 	public float speed = 4.0f;
 
+	/// <summary>
+	/// Should the plate drag the items as he is moving?
+	/// </summary>
+	protected bool dragItems = false;
+
+	/// <summary>
+	/// Animation to raise the barrier. It is also used to lower, playing
+	/// it backwards.
+	/// </summary>
+	public AnimationClip raiseBarrierClip;
+
 
 	void Awake ()
 	{
@@ -61,16 +72,18 @@ public class Plate : MonoBehaviour
 		// TODO: Move to the position depending on the current number of items queued
 		int itemsOnPlate = items.Count;
 
-		if (itemsOnPlate > 0)
 		{
 			// Move the plate to a position according to the number of elements queued
 			Vector3 targetPosition = standByPosition - stepSize * itemsOnPlate;
-			Vector3 movement = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * speed) - transform.position;
-			transform.position += movement;
+			Vector3 movement = Vector3.Lerp(transform.parent.position, targetPosition, Time.deltaTime * speed) - transform.parent.position;
+			transform.parent.position += movement;
 
-			for (int i = 0; i < items.Count; ++i)
+			if (dragItems)
 			{
-				items[i].transform.position += movement;
+				for (int i = 0; i < items.Count; ++i)
+				{
+					items[i].transform.position += movement;
+				}
 			}
 		}
 
@@ -119,6 +132,8 @@ public class Plate : MonoBehaviour
 			itemDestroyed = items[0];
 			items.RemoveAt(0);
 
+			dragItems = false;
+
 			// Unsubscribe from its listener, and subscribe to the first falling (if any)
 			itemDestroyed.fallListeners -= OnItemFell;
 			if (itemsFalling.Count > 0)
@@ -129,6 +144,10 @@ public class Plate : MonoBehaviour
 
 		if (itemDestroyed != null)
 		{
+			// Raise the barrier and let the item pass through
+			animation[raiseBarrierClip.name].speed = 1;
+			animation[raiseBarrierClip.name].time = 0;
+			animation.Play(raiseBarrierClip.name);
 			itemDestroyed.Destroy();
 		}
 	}
@@ -180,6 +199,18 @@ public class Plate : MonoBehaviour
 		{
 			item.fallListeners += OnItemFell;
 		}
+	}
+
+
+	void OnCollisionEnter (Collision other)
+	{
+		dragItems = true;
+	}
+
+	public void LowerBarrier ()
+	{
+		animation[raiseBarrierClip.name].speed = -1;
+		animation.Play(raiseBarrierClip.name);
 	}
 
 }

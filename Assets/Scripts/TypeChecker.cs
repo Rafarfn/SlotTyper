@@ -12,6 +12,12 @@ public class TypeChecker : MonoBehaviour
     public int errorCounter = 0; //an error counter
     private int wordCounter = 0; //use to know wich letter must be compare
 
+    /// <summary>
+    /// Label to put the text on
+    /// </summary>
+    public UILabel label;
+    public UILabel correctLabel;
+
     private bool isEnded = false;
 
 
@@ -80,6 +86,11 @@ public class TypeChecker : MonoBehaviour
 
 
 
+    void LateUpdate()
+    {
+        label.text = stringToBeChecked;
+        correctLabel.text = currentCheckedString;
+    }
 
     /// <summary>
     /// Check if the current input correspond with the 
@@ -97,12 +108,14 @@ public class TypeChecker : MonoBehaviour
         {
             if (!currentCheckedString[wordCounter].Equals(stringToBeChecked[wordCounter]))
             {
+                correctLabel.color = Color.red;
                 currentCheckedString = currentCheckedStringCopy;
                 errorCounter++;
                 currentCheckedStringLabel.normal.textColor = Color.red;
             }
             else
             {
+                correctLabel.color = Color.green;
                 currentCheckedStringLabel.normal.textColor = Color.green;
                 wordCounter++;
             }
@@ -115,7 +128,6 @@ public class TypeChecker : MonoBehaviour
 
     void OnGUI()
     {
-
         GUI.Label(new Rect(0, 50, 100, 100), stringToBeChecked, stringToBeCheckedLabel);
         GUI.Label(new Rect(0, 50, 100, 100), currentCheckedString, currentCheckedStringLabel);
         GUI.Label(new Rect(50, 100, 100, 100), "Errores: " + errorCounter);

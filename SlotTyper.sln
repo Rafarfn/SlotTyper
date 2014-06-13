@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{629368D9-3210-D088-9321-085350E8EE11}") = "SlotTyper", "Assembly-CSharp.csproj", "{800CF0B6-D319-82FC-50C4-409648358F49}"
 EndProject
+Project("{629368D9-3210-D088-9321-085350E8EE11}") = "SlotTyper", "Assembly-CSharp-Editor.csproj", "{8A283420-10AB-98DF-D7A8-B35B0AF6EA2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{800CF0B6-D319-82FC-50C4-409648358F49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{800CF0B6-D319-82FC-50C4-409648358F49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{800CF0B6-D319-82FC-50C4-409648358F49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A283420-10AB-98DF-D7A8-B35B0AF6EA2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A283420-10AB-98DF-D7A8-B35B0AF6EA2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A283420-10AB-98DF-D7A8-B35B0AF6EA2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A283420-10AB-98DF-D7A8-B35B0AF6EA2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																					GlobalSection(MonoDevelopProperties) = preSolution
+																								GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

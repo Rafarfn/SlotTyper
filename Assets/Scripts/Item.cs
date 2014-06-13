@@ -22,9 +22,13 @@ public class Item : MonoBehaviour
 		get { return mMovementDirection; }
 		set
 		{
-			mMovementDirection = value.normalized;
+			mMovementDirection = value;
+			mMovementDirection.y = 0;
+			mMovementDirection.Normalize();
 		}
 	}
+
+	public GameObject objectPlaceholder;
 
 
 	/// <summary>
@@ -49,12 +53,23 @@ public class Item : MonoBehaviour
 	/// </summary>
 	public OnItemFell fallListeners;
 
+	
+	void Start ()
+	{
+		// Create an object on the objectPlaceholder position
+		/*ItemInfo objectToCarry = ItemManager.CreateRandomObject();
+		objectToCarry.objectInfo.transform.parent = transform;
+		objectToCarry.objectInfo.transform.position = objectPlaceholder.transform.position;
+
+		itemString = objectToCarry.nameInfo;*/
+	}
+
 
 	void Update ()
 	{
 		if (mIsStopped)	return;
 
-		transform.Translate(movementDirection * speed * Time.deltaTime);
+		transform.root.Translate(movementDirection * speed * Time.deltaTime);
 	}
 
 	/// <summary>
@@ -62,9 +77,8 @@ public class Item : MonoBehaviour
 	/// </summary>
 	public void Destroy ()
 	{
-		// TODO
-		Destroy (gameObject);
-
+		speed *= 4;
+		isStopped = false;
 	}
 
 

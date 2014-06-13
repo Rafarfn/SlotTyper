@@ -8,16 +8,12 @@ public class ItemInfo : MonoBehaviour
 
     public GameObject objectInfo;
 
-    public static ItemInfo instance;
+    public GameObject objectPrefab;
 
-    void Awake()
-    {
-        instance = new ItemInfo();
-    }
 
     public void CreateItemInfo()
     {
 
-        Instantiate(objectInfo, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+        objectInfo = (GameObject)Instantiate(objectPrefab, new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
     }
 }
