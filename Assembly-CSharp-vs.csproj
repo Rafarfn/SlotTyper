@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Item.cs" />
      <Compile Include="Assets\Scripts\Lane.cs" />
      <Compile Include="Assets\Scripts\Plate.cs" />
+     <Compile Include="Assets\Scripts\TypeChecker.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
