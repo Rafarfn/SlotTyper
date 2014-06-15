@@ -9,8 +9,22 @@ public class TypeChecker : MonoBehaviour
     private string currentCheckedString = ""; //what the user is typing
 
 
-    public int errorCounter = 0; //an error counter
+    //Audio 
+    public AudioClip errorSound;
+
+    public static int errorCounter = 0; //an error counter
     private int wordCounter = 0; //use to know wich letter must be compare
+
+
+
+
+
+    /// <summary>
+    /// Label to put the text on
+    /// </summary>
+    public UILabel label;
+    public UILabel correctLabel;
+    public UILabel errorsLabel;
 
     private bool isEnded = false;
 
@@ -28,19 +42,30 @@ public class TypeChecker : MonoBehaviour
 
     void Start()
     {
+        errorCounter = 0;
         stringToBeCheckedLabel = new GUIStyle();
         stringToBeCheckedLabel.normal.textColor = Color.white;
-
         currentCheckedStringLabel = new GUIStyle();
+    }
+
+    protected bool updateForced = false;
+    public void ForceUpdateItem()
+    {
+        updateForced = true;
+        currentItem = null;
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            Plate.currentPlate = Plate.currentPlate.nextPlate;
+        }
 
         Item item = Plate.currentPlate.GetNextItem();
         if (item != null)
         {
-            
+
             if (currentItem == null || currentItem != item)
             {
                 isEnded = false;
@@ -53,7 +78,7 @@ public class TypeChecker : MonoBehaviour
         else
         {
             isEnded = true;
-           // stringToBeChecked = null;
+            // stringToBeChecked = null;
         }
         if (!isEnded)
         {
@@ -79,32 +104,49 @@ public class TypeChecker : MonoBehaviour
         }
     }
 
+
+
+    void LateUpdate()
+    {
+        label.text = stringToBeChecked;
+        correctLabel.text = currentCheckedString;
+
+        if (updateForced)
+        {
+            updateForced = false;
+            currentItem = null;
+        }
+    }
+
     /// <summary>
     /// Check if the current input correspond with the 
     /// stringToBeChecked global variable
     /// </summary>
     private void WordChecker(string currentCheckedStringCopy)
     {
+
         if (wordCounter >= stringToBeChecked.Length)
         {
-
             isEnded = true;
-
             Plate.currentPlate.ItemTypedRight();
-
         }
         else
         {
-            if (!currentCheckedString[wordCounter].Equals(stringToBeChecked[wordCounter]))
+            if (wordCounter < currentCheckedString.Length &&
+                wordCounter < stringToBeChecked.Length &&
+                !currentCheckedString[wordCounter].Equals(stringToBeChecked[wordCounter]))
             {
-                errorCounter++;
+                correctLabel.color = Color.red;
                 currentCheckedString = currentCheckedStringCopy;
-                currentCheckedStringLabel.normal.textColor = Color.red;
-
+                PlaySound(errorSound, 1F);
+                errorCounter++;
+                //currentCheckedStringLabel.normal.textColor = Color.red;
+                
             }
             else
             {
-                currentCheckedStringLabel.normal.textColor = Color.green;
+                correctLabel.color = Color.green;
+                //currentCheckedStringLabel.normal.textColor = Color.green;
                 wordCounter++;
             }
         }
@@ -112,13 +154,32 @@ public class TypeChecker : MonoBehaviour
 
     }
 
+    private IEnumerator PlaySoundCorrutine(AudioClip soundName, float soundDelay, float soundRate)
+    {
+        if (Time.time > soundRate)
+        {
+            soundRate = Time.time + soundDelay;
+            audio.clip = soundName;
+            audio.Play();
+            yield return new WaitForSeconds(audio.clip.length);
+        }
+
+    }
+
+    private void PlaySound(AudioClip soundName, float soundDelay)
+    {
+        float soundRate = 1F;
+        StartCoroutine(PlaySoundCorrutine(soundName, soundDelay, soundRate));
+
+    }
 
 
+    /*
     void OnGUI()
     {
-
         GUI.Label(new Rect(0, 50, 100, 100), stringToBeChecked, stringToBeCheckedLabel);
         GUI.Label(new Rect(0, 50, 100, 100), currentCheckedString, currentCheckedStringLabel);
         GUI.Label(new Rect(50, 100, 100, 100), "Errores: " + errorCounter);
     }
+    */
 }
